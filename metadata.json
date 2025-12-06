@@ -1,0 +1,7 @@
+{
+  "name": "MedNexus AI",
+  "description": "A futuristic, specialized healthcare assistant powered by Gemini 2.5. Features intelligent medical triage, visual symptom analysis, and voice synthesis.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
