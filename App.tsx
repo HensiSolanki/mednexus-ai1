@@ -2,11 +2,15 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Header } from './components/Header';
 import { MessageBubble } from './components/MessageBubble';
 import { InputArea } from './components/InputArea';
+import { LoginForm } from './components/LoginForm';
+import { DummyDataPanel } from './components/DummyDataPanel';
 import { Message, Role, MessageType, Attachment } from './types';
 import { sendMessageToGemini } from './services/geminiService';
+import { useAuth } from './contexts/AuthContext';
 import { Info, ShieldCheck, Activity } from 'lucide-react';
 
 const App: React.FC = () => {
+  const { isAuthenticated, isLoading: authLoading } = useAuth();
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [showDisclaimer, setShowDisclaimer] = useState(true);
@@ -59,6 +63,23 @@ const App: React.FC = () => {
       setIsLoading(false);
     }
   };
+
+  // Show loading state while checking authentication
+  if (authLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen bg-dark-900">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-med-500/30 border-t-med-500 rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-slate-400">Loading MedNexus AI...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Show login form if not authenticated
+  if (!isAuthenticated) {
+    return <LoginForm />;
+  }
 
   return (
     <div className="flex flex-col h-screen bg-dark-900 text-slate-200 font-sans selection:bg-med-500/30">
@@ -134,6 +155,9 @@ const App: React.FC = () => {
       </main>
 
       <InputArea onSendMessage={handleSendMessage} isLoading={isLoading} />
+
+      {/* Dummy Data Panel */}
+      <DummyDataPanel />
 
       {/* Disclaimer Modal */}
       {showDisclaimer && (
