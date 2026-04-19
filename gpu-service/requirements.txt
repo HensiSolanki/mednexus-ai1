@@ -1,0 +1,8 @@
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+python-multipart==0.0.20
+# 20231117 fails on Python 3.13 (setup KeyError) and on setuptools 82+ (pkg_resources).
+openai-whisper==20250625
+torch>=2.2.0
+transformers>=4.44.0
+accelerate>=0.34.0
